@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newInventory(db *gorm.DB) inventory {
@@ -27,18 +27,18 @@ func newInventory(db *gorm.DB) inventory {
 
 	tableName := _inventory.inventoryDo.TableName()
 	_inventory.ALL = field.NewAsterisk(tableName)
-	_inventory.ID = field.NewInt64(tableName, "id")
+	_inventory.ID = field.NewInt32(tableName, "id")
 	_inventory.Name = field.NewString(tableName, "name")
-	_inventory.FarmID = field.NewInt64(tableName, "farm_id")
-	_inventory.Type = field.NewInt64(tableName, "type")
+	_inventory.FarmID = field.NewInt32(tableName, "farm_id")
+	_inventory.Type = field.NewInt32(tableName, "type")
 	_inventory.Company = field.NewString(tableName, "company")
-	_inventory.Sum = field.NewInt64(tableName, "sum")
+	_inventory.Sum = field.NewInt32(tableName, "sum")
 	_inventory.Price = field.NewFloat32(tableName, "price")
 	_inventory.UnitConversion = field.NewFloat32(tableName, "unit_conversion")
 	_inventory.StandardUnit = field.NewString(tableName, "standard_unit")
 	_inventory.ProductUnit = field.NewString(tableName, "product_unit")
 	_inventory.DeleteAt = field.NewTime(tableName, "delete_at")
-	_inventory.MinimumLimit = field.NewInt64(tableName, "minimum_limit")
+	_inventory.MinimumLimit = field.NewInt32(tableName, "minimum_limit")
 
 	_inventory.fillFieldMap()
 
@@ -46,21 +46,21 @@ func newInventory(db *gorm.DB) inventory {
 }
 
 type inventory struct {
-	inventoryDo inventoryDo
+	inventoryDo
 
 	ALL            field.Asterisk
-	ID             field.Int64
+	ID             field.Int32
 	Name           field.String
-	FarmID         field.Int64
-	Type           field.Int64
+	FarmID         field.Int32
+	Type           field.Int32
 	Company        field.String
-	Sum            field.Int64
+	Sum            field.Int32
 	Price          field.Float32
 	UnitConversion field.Float32
 	StandardUnit   field.String
 	ProductUnit    field.String
 	DeleteAt       field.Time
-	MinimumLimit   field.Int64
+	MinimumLimit   field.Int32
 
 	fieldMap map[string]field.Expr
 }
@@ -77,31 +77,23 @@ func (i inventory) As(alias string) *inventory {
 
 func (i *inventory) updateTableName(table string) *inventory {
 	i.ALL = field.NewAsterisk(table)
-	i.ID = field.NewInt64(table, "id")
+	i.ID = field.NewInt32(table, "id")
 	i.Name = field.NewString(table, "name")
-	i.FarmID = field.NewInt64(table, "farm_id")
-	i.Type = field.NewInt64(table, "type")
+	i.FarmID = field.NewInt32(table, "farm_id")
+	i.Type = field.NewInt32(table, "type")
 	i.Company = field.NewString(table, "company")
-	i.Sum = field.NewInt64(table, "sum")
+	i.Sum = field.NewInt32(table, "sum")
 	i.Price = field.NewFloat32(table, "price")
 	i.UnitConversion = field.NewFloat32(table, "unit_conversion")
 	i.StandardUnit = field.NewString(table, "standard_unit")
 	i.ProductUnit = field.NewString(table, "product_unit")
 	i.DeleteAt = field.NewTime(table, "delete_at")
-	i.MinimumLimit = field.NewInt64(table, "minimum_limit")
+	i.MinimumLimit = field.NewInt32(table, "minimum_limit")
 
 	i.fillFieldMap()
 
 	return i
 }
-
-func (i *inventory) WithContext(ctx context.Context) IInventoryDo {
-	return i.inventoryDo.WithContext(ctx)
-}
-
-func (i inventory) TableName() string { return i.inventoryDo.TableName() }
-
-func (i inventory) Alias() string { return i.inventoryDo.Alias() }
 
 func (i *inventory) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := i.fieldMap[fieldName]

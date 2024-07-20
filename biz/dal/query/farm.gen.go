@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newFarm(db *gorm.DB) farm {
@@ -27,9 +27,9 @@ func newFarm(db *gorm.DB) farm {
 
 	tableName := _farm.farmDo.TableName()
 	_farm.ALL = field.NewAsterisk(tableName)
-	_farm.ID = field.NewInt64(tableName, "id")
-	_farm.EnterpriseID = field.NewInt64(tableName, "enterprise_id")
-	_farm.SuperintendentID = field.NewInt64(tableName, "superintendent_id")
+	_farm.ID = field.NewInt32(tableName, "id")
+	_farm.EnterpriseID = field.NewInt32(tableName, "enterprise_id")
+	_farm.SuperintendentID = field.NewInt32(tableName, "superintendent_id")
 	_farm.Name = field.NewString(tableName, "name")
 	_farm.Address = field.NewString(tableName, "address")
 	_farm.CreateTime = field.NewTime(tableName, "create_time")
@@ -40,12 +40,12 @@ func newFarm(db *gorm.DB) farm {
 }
 
 type farm struct {
-	farmDo farmDo
+	farmDo
 
 	ALL              field.Asterisk
-	ID               field.Int64
-	EnterpriseID     field.Int64
-	SuperintendentID field.Int64
+	ID               field.Int32
+	EnterpriseID     field.Int32
+	SuperintendentID field.Int32
 	Name             field.String
 	Address          field.String
 	CreateTime       field.Time
@@ -65,9 +65,9 @@ func (f farm) As(alias string) *farm {
 
 func (f *farm) updateTableName(table string) *farm {
 	f.ALL = field.NewAsterisk(table)
-	f.ID = field.NewInt64(table, "id")
-	f.EnterpriseID = field.NewInt64(table, "enterprise_id")
-	f.SuperintendentID = field.NewInt64(table, "superintendent_id")
+	f.ID = field.NewInt32(table, "id")
+	f.EnterpriseID = field.NewInt32(table, "enterprise_id")
+	f.SuperintendentID = field.NewInt32(table, "superintendent_id")
 	f.Name = field.NewString(table, "name")
 	f.Address = field.NewString(table, "address")
 	f.CreateTime = field.NewTime(table, "create_time")
@@ -76,12 +76,6 @@ func (f *farm) updateTableName(table string) *farm {
 
 	return f
 }
-
-func (f *farm) WithContext(ctx context.Context) IFarmDo { return f.farmDo.WithContext(ctx) }
-
-func (f farm) TableName() string { return f.farmDo.TableName() }
-
-func (f farm) Alias() string { return f.farmDo.Alias() }
 
 func (f *farm) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := f.fieldMap[fieldName]

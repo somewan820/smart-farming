@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newEmployee(db *gorm.DB) employee {
@@ -27,9 +27,9 @@ func newEmployee(db *gorm.DB) employee {
 
 	tableName := _employee.employeeDo.TableName()
 	_employee.ALL = field.NewAsterisk(tableName)
-	_employee.ID = field.NewInt64(tableName, "id")
+	_employee.ID = field.NewInt32(tableName, "id")
 	_employee.Name = field.NewString(tableName, "name")
-	_employee.Rank = field.NewInt64(tableName, "rank")
+	_employee.Rank = field.NewInt32(tableName, "rank")
 	_employee.Phone = field.NewString(tableName, "phone")
 	_employee.Openid = field.NewString(tableName, "openid")
 	_employee.CreateTime = field.NewTime(tableName, "create_time")
@@ -40,12 +40,12 @@ func newEmployee(db *gorm.DB) employee {
 }
 
 type employee struct {
-	employeeDo employeeDo
+	employeeDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
+	ID         field.Int32
 	Name       field.String
-	Rank       field.Int64
+	Rank       field.Int32
 	Phone      field.String
 	Openid     field.String
 	CreateTime field.Time
@@ -65,9 +65,9 @@ func (e employee) As(alias string) *employee {
 
 func (e *employee) updateTableName(table string) *employee {
 	e.ALL = field.NewAsterisk(table)
-	e.ID = field.NewInt64(table, "id")
+	e.ID = field.NewInt32(table, "id")
 	e.Name = field.NewString(table, "name")
-	e.Rank = field.NewInt64(table, "rank")
+	e.Rank = field.NewInt32(table, "rank")
 	e.Phone = field.NewString(table, "phone")
 	e.Openid = field.NewString(table, "openid")
 	e.CreateTime = field.NewTime(table, "create_time")
@@ -76,12 +76,6 @@ func (e *employee) updateTableName(table string) *employee {
 
 	return e
 }
-
-func (e *employee) WithContext(ctx context.Context) IEmployeeDo { return e.employeeDo.WithContext(ctx) }
-
-func (e employee) TableName() string { return e.employeeDo.TableName() }
-
-func (e employee) Alias() string { return e.employeeDo.Alias() }
 
 func (e *employee) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := e.fieldMap[fieldName]

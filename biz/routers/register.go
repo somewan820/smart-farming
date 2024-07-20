@@ -1,9 +1,10 @@
 package routers
 
 import (
+	"ST/biz/routers/employees"
 	"github.com/gin-gonic/gin"
 )
 
 func InitRouter(r *gin.Engine) {
-	employee.Register(r)
+	employees.Register(r)
 }

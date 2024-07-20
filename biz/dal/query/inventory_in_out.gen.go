@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newInventoryInOut(db *gorm.DB) inventoryInOut {
@@ -27,15 +27,15 @@ func newInventoryInOut(db *gorm.DB) inventoryInOut {
 
 	tableName := _inventoryInOut.inventoryInOutDo.TableName()
 	_inventoryInOut.ALL = field.NewAsterisk(tableName)
-	_inventoryInOut.ID = field.NewInt64(tableName, "id")
-	_inventoryInOut.FarmID = field.NewInt64(tableName, "farm_id")
-	_inventoryInOut.Sum = field.NewInt64(tableName, "sum")
-	_inventoryInOut.InventoryID = field.NewInt64(tableName, "inventory_id")
-	_inventoryInOut.EmployeeID = field.NewInt64(tableName, "employee_id")
-	_inventoryInOut.Action = field.NewInt64(tableName, "action")
+	_inventoryInOut.ID = field.NewInt32(tableName, "id")
+	_inventoryInOut.FarmID = field.NewInt32(tableName, "farm_id")
+	_inventoryInOut.Sum = field.NewInt32(tableName, "sum")
+	_inventoryInOut.InventoryID = field.NewInt32(tableName, "inventory_id")
+	_inventoryInOut.EmployeeID = field.NewInt32(tableName, "employee_id")
+	_inventoryInOut.Action = field.NewBool(tableName, "action")
 	_inventoryInOut.CreateTime = field.NewTime(tableName, "create_time")
 	_inventoryInOut.DeleteAt = field.NewTime(tableName, "delete_at")
-	_inventoryInOut.Amout = field.NewInt64(tableName, "amout")
+	_inventoryInOut.Amout = field.NewInt32(tableName, "amout")
 
 	_inventoryInOut.fillFieldMap()
 
@@ -43,18 +43,18 @@ func newInventoryInOut(db *gorm.DB) inventoryInOut {
 }
 
 type inventoryInOut struct {
-	inventoryInOutDo inventoryInOutDo
+	inventoryInOutDo
 
 	ALL         field.Asterisk
-	ID          field.Int64
-	FarmID      field.Int64
-	Sum         field.Int64
-	InventoryID field.Int64
-	EmployeeID  field.Int64
-	Action      field.Int64
+	ID          field.Int32
+	FarmID      field.Int32
+	Sum         field.Int32
+	InventoryID field.Int32
+	EmployeeID  field.Int32
+	Action      field.Bool
 	CreateTime  field.Time
 	DeleteAt    field.Time
-	Amout       field.Int64
+	Amout       field.Int32
 
 	fieldMap map[string]field.Expr
 }
@@ -71,28 +71,20 @@ func (i inventoryInOut) As(alias string) *inventoryInOut {
 
 func (i *inventoryInOut) updateTableName(table string) *inventoryInOut {
 	i.ALL = field.NewAsterisk(table)
-	i.ID = field.NewInt64(table, "id")
-	i.FarmID = field.NewInt64(table, "farm_id")
-	i.Sum = field.NewInt64(table, "sum")
-	i.InventoryID = field.NewInt64(table, "inventory_id")
-	i.EmployeeID = field.NewInt64(table, "employee_id")
-	i.Action = field.NewInt64(table, "action")
+	i.ID = field.NewInt32(table, "id")
+	i.FarmID = field.NewInt32(table, "farm_id")
+	i.Sum = field.NewInt32(table, "sum")
+	i.InventoryID = field.NewInt32(table, "inventory_id")
+	i.EmployeeID = field.NewInt32(table, "employee_id")
+	i.Action = field.NewBool(table, "action")
 	i.CreateTime = field.NewTime(table, "create_time")
 	i.DeleteAt = field.NewTime(table, "delete_at")
-	i.Amout = field.NewInt64(table, "amout")
+	i.Amout = field.NewInt32(table, "amout")
 
 	i.fillFieldMap()
 
 	return i
 }
-
-func (i *inventoryInOut) WithContext(ctx context.Context) IInventoryInOutDo {
-	return i.inventoryInOutDo.WithContext(ctx)
-}
-
-func (i inventoryInOut) TableName() string { return i.inventoryInOutDo.TableName() }
-
-func (i inventoryInOut) Alias() string { return i.inventoryInOutDo.Alias() }
 
 func (i *inventoryInOut) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := i.fieldMap[fieldName]

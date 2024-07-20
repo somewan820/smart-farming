@@ -1,8 +1,9 @@
 package main
 
 import (
-	"ST/config"
-	"ST/dal"
+	"ST/biz/config"
+	"ST/biz/dal"
+	"ST/biz/routers"
 	"github.com/gin-gonic/gin"
 )
 

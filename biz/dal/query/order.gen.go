@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newOrder(db *gorm.DB) order {
@@ -27,13 +27,13 @@ func newOrder(db *gorm.DB) order {
 
 	tableName := _order.orderDo.TableName()
 	_order.ALL = field.NewAsterisk(tableName)
-	_order.ID = field.NewInt64(tableName, "id")
-	_order.SubmitterID = field.NewInt64(tableName, "submitter_id")
-	_order.SolverID = field.NewInt64(tableName, "solver_id")
-	_order.HenhouseID = field.NewInt64(tableName, "henhouse_id")
-	_order.Status = field.NewInt64(tableName, "status")
-	_order.Type = field.NewInt64(tableName, "type")
-	_order.Urgency = field.NewInt64(tableName, "urgency")
+	_order.ID = field.NewInt32(tableName, "id")
+	_order.SubmitterID = field.NewInt32(tableName, "submitter_id")
+	_order.SolverID = field.NewInt32(tableName, "solver_id")
+	_order.HenhouseID = field.NewInt32(tableName, "henhouse_id")
+	_order.Status = field.NewInt32(tableName, "status")
+	_order.Type = field.NewInt32(tableName, "type")
+	_order.Urgency = field.NewInt32(tableName, "urgency")
 	_order.CreateTime = field.NewTime(tableName, "create_time")
 	_order.AcceptTime = field.NewTime(tableName, "accept_time")
 	_order.FinishTime = field.NewTime(tableName, "finish_time")
@@ -48,16 +48,16 @@ func newOrder(db *gorm.DB) order {
 }
 
 type order struct {
-	orderDo orderDo
+	orderDo
 
 	ALL            field.Asterisk
-	ID             field.Int64
-	SubmitterID    field.Int64
-	SolverID       field.Int64
-	HenhouseID     field.Int64
-	Status         field.Int64
-	Type           field.Int64
-	Urgency        field.Int64
+	ID             field.Int32
+	SubmitterID    field.Int32
+	SolverID       field.Int32
+	HenhouseID     field.Int32
+	Status         field.Int32
+	Type           field.Int32
+	Urgency        field.Int32
 	CreateTime     field.Time
 	AcceptTime     field.Time
 	FinishTime     field.Time
@@ -81,13 +81,13 @@ func (o order) As(alias string) *order {
 
 func (o *order) updateTableName(table string) *order {
 	o.ALL = field.NewAsterisk(table)
-	o.ID = field.NewInt64(table, "id")
-	o.SubmitterID = field.NewInt64(table, "submitter_id")
-	o.SolverID = field.NewInt64(table, "solver_id")
-	o.HenhouseID = field.NewInt64(table, "henhouse_id")
-	o.Status = field.NewInt64(table, "status")
-	o.Type = field.NewInt64(table, "type")
-	o.Urgency = field.NewInt64(table, "urgency")
+	o.ID = field.NewInt32(table, "id")
+	o.SubmitterID = field.NewInt32(table, "submitter_id")
+	o.SolverID = field.NewInt32(table, "solver_id")
+	o.HenhouseID = field.NewInt32(table, "henhouse_id")
+	o.Status = field.NewInt32(table, "status")
+	o.Type = field.NewInt32(table, "type")
+	o.Urgency = field.NewInt32(table, "urgency")
 	o.CreateTime = field.NewTime(table, "create_time")
 	o.AcceptTime = field.NewTime(table, "accept_time")
 	o.FinishTime = field.NewTime(table, "finish_time")
@@ -100,12 +100,6 @@ func (o *order) updateTableName(table string) *order {
 
 	return o
 }
-
-func (o *order) WithContext(ctx context.Context) IOrderDo { return o.orderDo.WithContext(ctx) }
-
-func (o order) TableName() string { return o.orderDo.TableName() }
-
-func (o order) Alias() string { return o.orderDo.Alias() }
 
 func (o *order) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := o.fieldMap[fieldName]

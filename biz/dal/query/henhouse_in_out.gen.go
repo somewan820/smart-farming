@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newHenhouseInOut(db *gorm.DB) henhouseInOut {
@@ -27,14 +27,14 @@ func newHenhouseInOut(db *gorm.DB) henhouseInOut {
 
 	tableName := _henhouseInOut.henhouseInOutDo.TableName()
 	_henhouseInOut.ALL = field.NewAsterisk(tableName)
-	_henhouseInOut.ID = field.NewInt64(tableName, "id")
-	_henhouseInOut.HenhouseID = field.NewInt64(tableName, "henhouse_id")
-	_henhouseInOut.Amount = field.NewInt64(tableName, "amount")
-	_henhouseInOut.Days = field.NewInt64(tableName, "days")
-	_henhouseInOut.Action = field.NewInt64(tableName, "action")
+	_henhouseInOut.ID = field.NewInt32(tableName, "id")
+	_henhouseInOut.HenhouseID = field.NewInt32(tableName, "henhouse_id")
+	_henhouseInOut.Amount = field.NewInt32(tableName, "amount")
+	_henhouseInOut.Days = field.NewInt32(tableName, "days")
+	_henhouseInOut.Action = field.NewBool(tableName, "action")
 	_henhouseInOut.CreateTime = field.NewTime(tableName, "create_time")
-	_henhouseInOut.EmployeeID = field.NewInt64(tableName, "employee_id")
-	_henhouseInOut.Sum = field.NewInt64(tableName, "sum")
+	_henhouseInOut.EmployeeID = field.NewInt32(tableName, "employee_id")
+	_henhouseInOut.Sum = field.NewInt32(tableName, "sum")
 
 	_henhouseInOut.fillFieldMap()
 
@@ -42,17 +42,17 @@ func newHenhouseInOut(db *gorm.DB) henhouseInOut {
 }
 
 type henhouseInOut struct {
-	henhouseInOutDo henhouseInOutDo
+	henhouseInOutDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
-	HenhouseID field.Int64
-	Amount     field.Int64
-	Days       field.Int64
-	Action     field.Int64
+	ID         field.Int32
+	HenhouseID field.Int32
+	Amount     field.Int32
+	Days       field.Int32
+	Action     field.Bool
 	CreateTime field.Time
-	EmployeeID field.Int64
-	Sum        field.Int64
+	EmployeeID field.Int32
+	Sum        field.Int32
 
 	fieldMap map[string]field.Expr
 }
@@ -69,27 +69,19 @@ func (h henhouseInOut) As(alias string) *henhouseInOut {
 
 func (h *henhouseInOut) updateTableName(table string) *henhouseInOut {
 	h.ALL = field.NewAsterisk(table)
-	h.ID = field.NewInt64(table, "id")
-	h.HenhouseID = field.NewInt64(table, "henhouse_id")
-	h.Amount = field.NewInt64(table, "amount")
-	h.Days = field.NewInt64(table, "days")
-	h.Action = field.NewInt64(table, "action")
+	h.ID = field.NewInt32(table, "id")
+	h.HenhouseID = field.NewInt32(table, "henhouse_id")
+	h.Amount = field.NewInt32(table, "amount")
+	h.Days = field.NewInt32(table, "days")
+	h.Action = field.NewBool(table, "action")
 	h.CreateTime = field.NewTime(table, "create_time")
-	h.EmployeeID = field.NewInt64(table, "employee_id")
-	h.Sum = field.NewInt64(table, "sum")
+	h.EmployeeID = field.NewInt32(table, "employee_id")
+	h.Sum = field.NewInt32(table, "sum")
 
 	h.fillFieldMap()
 
 	return h
 }
-
-func (h *henhouseInOut) WithContext(ctx context.Context) IHenhouseInOutDo {
-	return h.henhouseInOutDo.WithContext(ctx)
-}
-
-func (h henhouseInOut) TableName() string { return h.henhouseInOutDo.TableName() }
-
-func (h henhouseInOut) Alias() string { return h.henhouseInOutDo.Alias() }
 
 func (h *henhouseInOut) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := h.fieldMap[fieldName]

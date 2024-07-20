@@ -1,8 +1,8 @@
 package config
 
 import (
-	"ST/dal"
-	"ST/dal/query"
+	"ST/biz/dal"
+	"ST/biz/dal/query"
 	"gorm.io/gen"
 )
 

@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newHenStep(db *gorm.DB) henStep {
@@ -27,15 +27,15 @@ func newHenStep(db *gorm.DB) henStep {
 
 	tableName := _henStep.henStepDo.TableName()
 	_henStep.ALL = field.NewAsterisk(tableName)
-	_henStep.ID = field.NewInt64(tableName, "id")
+	_henStep.ID = field.NewInt32(tableName, "id")
 	_henStep.UUID = field.NewString(tableName, "uuid")
 	_henStep.Mac = field.NewString(tableName, "mac")
 	_henStep.Name = field.NewString(tableName, "name")
-	_henStep.HenhouseID = field.NewInt64(tableName, "henhouse_id")
-	_henStep.DaySteps = field.NewInt64(tableName, "day_steps")
-	_henStep.TotalSteps = field.NewInt64(tableName, "total_steps")
-	_henStep.Rssi = field.NewInt64(tableName, "rssi")
-	_henStep.Battery = field.NewInt64(tableName, "battery")
+	_henStep.HenhouseID = field.NewInt32(tableName, "henhouse_id")
+	_henStep.DaySteps = field.NewInt32(tableName, "day_steps")
+	_henStep.TotalSteps = field.NewInt32(tableName, "total_steps")
+	_henStep.Rssi = field.NewInt32(tableName, "rssi")
+	_henStep.Battery = field.NewInt32(tableName, "battery")
 	_henStep.CreateTime = field.NewTime(tableName, "create_time")
 
 	_henStep.fillFieldMap()
@@ -44,18 +44,18 @@ func newHenStep(db *gorm.DB) henStep {
 }
 
 type henStep struct {
-	henStepDo henStepDo
+	henStepDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
+	ID         field.Int32
 	UUID       field.String
 	Mac        field.String
 	Name       field.String
-	HenhouseID field.Int64
-	DaySteps   field.Int64
-	TotalSteps field.Int64
-	Rssi       field.Int64
-	Battery    field.Int64
+	HenhouseID field.Int32
+	DaySteps   field.Int32
+	TotalSteps field.Int32
+	Rssi       field.Int32
+	Battery    field.Int32
 	CreateTime field.Time
 
 	fieldMap map[string]field.Expr
@@ -73,27 +73,21 @@ func (h henStep) As(alias string) *henStep {
 
 func (h *henStep) updateTableName(table string) *henStep {
 	h.ALL = field.NewAsterisk(table)
-	h.ID = field.NewInt64(table, "id")
+	h.ID = field.NewInt32(table, "id")
 	h.UUID = field.NewString(table, "uuid")
 	h.Mac = field.NewString(table, "mac")
 	h.Name = field.NewString(table, "name")
-	h.HenhouseID = field.NewInt64(table, "henhouse_id")
-	h.DaySteps = field.NewInt64(table, "day_steps")
-	h.TotalSteps = field.NewInt64(table, "total_steps")
-	h.Rssi = field.NewInt64(table, "rssi")
-	h.Battery = field.NewInt64(table, "battery")
+	h.HenhouseID = field.NewInt32(table, "henhouse_id")
+	h.DaySteps = field.NewInt32(table, "day_steps")
+	h.TotalSteps = field.NewInt32(table, "total_steps")
+	h.Rssi = field.NewInt32(table, "rssi")
+	h.Battery = field.NewInt32(table, "battery")
 	h.CreateTime = field.NewTime(table, "create_time")
 
 	h.fillFieldMap()
 
 	return h
 }
-
-func (h *henStep) WithContext(ctx context.Context) IHenStepDo { return h.henStepDo.WithContext(ctx) }
-
-func (h henStep) TableName() string { return h.henStepDo.TableName() }
-
-func (h henStep) Alias() string { return h.henStepDo.Alias() }
 
 func (h *henStep) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := h.fieldMap[fieldName]

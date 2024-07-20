@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newEnterprise(db *gorm.DB) enterprise {
@@ -27,10 +27,10 @@ func newEnterprise(db *gorm.DB) enterprise {
 
 	tableName := _enterprise.enterpriseDo.TableName()
 	_enterprise.ALL = field.NewAsterisk(tableName)
-	_enterprise.ID = field.NewInt64(tableName, "id")
+	_enterprise.ID = field.NewInt32(tableName, "id")
 	_enterprise.Name = field.NewString(tableName, "name")
 	_enterprise.Address = field.NewString(tableName, "address")
-	_enterprise.SuperintendentID = field.NewInt64(tableName, "superintendent_id")
+	_enterprise.SuperintendentID = field.NewInt32(tableName, "superintendent_id")
 	_enterprise.CreateTime = field.NewTime(tableName, "create_time")
 
 	_enterprise.fillFieldMap()
@@ -39,13 +39,13 @@ func newEnterprise(db *gorm.DB) enterprise {
 }
 
 type enterprise struct {
-	enterpriseDo enterpriseDo
+	enterpriseDo
 
 	ALL              field.Asterisk
-	ID               field.Int64
+	ID               field.Int32
 	Name             field.String
 	Address          field.String
-	SuperintendentID field.Int64
+	SuperintendentID field.Int32
 	CreateTime       field.Time
 
 	fieldMap map[string]field.Expr
@@ -63,24 +63,16 @@ func (e enterprise) As(alias string) *enterprise {
 
 func (e *enterprise) updateTableName(table string) *enterprise {
 	e.ALL = field.NewAsterisk(table)
-	e.ID = field.NewInt64(table, "id")
+	e.ID = field.NewInt32(table, "id")
 	e.Name = field.NewString(table, "name")
 	e.Address = field.NewString(table, "address")
-	e.SuperintendentID = field.NewInt64(table, "superintendent_id")
+	e.SuperintendentID = field.NewInt32(table, "superintendent_id")
 	e.CreateTime = field.NewTime(table, "create_time")
 
 	e.fillFieldMap()
 
 	return e
 }
-
-func (e *enterprise) WithContext(ctx context.Context) IEnterpriseDo {
-	return e.enterpriseDo.WithContext(ctx)
-}
-
-func (e enterprise) TableName() string { return e.enterpriseDo.TableName() }
-
-func (e enterprise) Alias() string { return e.enterpriseDo.Alias() }
 
 func (e *enterprise) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := e.fieldMap[fieldName]

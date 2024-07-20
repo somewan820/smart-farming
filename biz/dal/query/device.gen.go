@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newDevice(db *gorm.DB) device {
@@ -27,11 +27,11 @@ func newDevice(db *gorm.DB) device {
 
 	tableName := _device.deviceDo.TableName()
 	_device.ALL = field.NewAsterisk(tableName)
-	_device.ID = field.NewInt64(tableName, "id")
-	_device.MaintainerID = field.NewInt64(tableName, "maintainer_id")
-	_device.HenhouseID = field.NewInt64(tableName, "henhouse_id")
-	_device.Status = field.NewInt64(tableName, "status")
-	_device.Type = field.NewInt64(tableName, "type")
+	_device.ID = field.NewInt32(tableName, "id")
+	_device.MaintainerID = field.NewInt32(tableName, "maintainer_id")
+	_device.HenhouseID = field.NewInt32(tableName, "henhouse_id")
+	_device.Status = field.NewInt32(tableName, "status")
+	_device.Type = field.NewInt32(tableName, "type")
 	_device.URL = field.NewString(tableName, "url")
 	_device.Mac = field.NewString(tableName, "mac")
 	_device.Name = field.NewString(tableName, "name")
@@ -43,14 +43,14 @@ func newDevice(db *gorm.DB) device {
 }
 
 type device struct {
-	deviceDo deviceDo
+	deviceDo
 
 	ALL          field.Asterisk
-	ID           field.Int64
-	MaintainerID field.Int64
-	HenhouseID   field.Int64
-	Status       field.Int64
-	Type         field.Int64
+	ID           field.Int32
+	MaintainerID field.Int32
+	HenhouseID   field.Int32
+	Status       field.Int32
+	Type         field.Int32
 	URL          field.String
 	Mac          field.String
 	Name         field.String
@@ -71,11 +71,11 @@ func (d device) As(alias string) *device {
 
 func (d *device) updateTableName(table string) *device {
 	d.ALL = field.NewAsterisk(table)
-	d.ID = field.NewInt64(table, "id")
-	d.MaintainerID = field.NewInt64(table, "maintainer_id")
-	d.HenhouseID = field.NewInt64(table, "henhouse_id")
-	d.Status = field.NewInt64(table, "status")
-	d.Type = field.NewInt64(table, "type")
+	d.ID = field.NewInt32(table, "id")
+	d.MaintainerID = field.NewInt32(table, "maintainer_id")
+	d.HenhouseID = field.NewInt32(table, "henhouse_id")
+	d.Status = field.NewInt32(table, "status")
+	d.Type = field.NewInt32(table, "type")
 	d.URL = field.NewString(table, "url")
 	d.Mac = field.NewString(table, "mac")
 	d.Name = field.NewString(table, "name")
@@ -85,12 +85,6 @@ func (d *device) updateTableName(table string) *device {
 
 	return d
 }
-
-func (d *device) WithContext(ctx context.Context) IDeviceDo { return d.deviceDo.WithContext(ctx) }
-
-func (d device) TableName() string { return d.deviceDo.TableName() }
-
-func (d device) Alias() string { return d.deviceDo.Alias() }
 
 func (d *device) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := d.fieldMap[fieldName]

@@ -1,7 +1,7 @@
-package employee
+package employees
 
 import (
-	"ST/handler/employees"
+	"ST/biz/handler/employees"
 	"github.com/gin-gonic/gin"
 )
 

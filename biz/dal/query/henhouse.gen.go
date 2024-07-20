@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newHenhouse(db *gorm.DB) henhouse {
@@ -27,13 +27,13 @@ func newHenhouse(db *gorm.DB) henhouse {
 
 	tableName := _henhouse.henhouseDo.TableName()
 	_henhouse.ALL = field.NewAsterisk(tableName)
-	_henhouse.ID = field.NewInt64(tableName, "id")
-	_henhouse.FarmID = field.NewInt64(tableName, "farm_id")
+	_henhouse.ID = field.NewInt32(tableName, "id")
+	_henhouse.FarmID = field.NewInt32(tableName, "farm_id")
 	_henhouse.Longitude = field.NewFloat32(tableName, "longitude")
 	_henhouse.Latitude = field.NewFloat32(tableName, "latitude")
 	_henhouse.Name = field.NewString(tableName, "name")
 	_henhouse.CreateTime = field.NewTime(tableName, "create_time")
-	_henhouse.Sum = field.NewInt64(tableName, "sum")
+	_henhouse.Sum = field.NewInt32(tableName, "sum")
 
 	_henhouse.fillFieldMap()
 
@@ -41,16 +41,16 @@ func newHenhouse(db *gorm.DB) henhouse {
 }
 
 type henhouse struct {
-	henhouseDo henhouseDo
+	henhouseDo
 
 	ALL        field.Asterisk
-	ID         field.Int64
-	FarmID     field.Int64
+	ID         field.Int32
+	FarmID     field.Int32
 	Longitude  field.Float32
 	Latitude   field.Float32
 	Name       field.String
 	CreateTime field.Time
-	Sum        field.Int64
+	Sum        field.Int32
 
 	fieldMap map[string]field.Expr
 }
@@ -67,24 +67,18 @@ func (h henhouse) As(alias string) *henhouse {
 
 func (h *henhouse) updateTableName(table string) *henhouse {
 	h.ALL = field.NewAsterisk(table)
-	h.ID = field.NewInt64(table, "id")
-	h.FarmID = field.NewInt64(table, "farm_id")
+	h.ID = field.NewInt32(table, "id")
+	h.FarmID = field.NewInt32(table, "farm_id")
 	h.Longitude = field.NewFloat32(table, "longitude")
 	h.Latitude = field.NewFloat32(table, "latitude")
 	h.Name = field.NewString(table, "name")
 	h.CreateTime = field.NewTime(table, "create_time")
-	h.Sum = field.NewInt64(table, "sum")
+	h.Sum = field.NewInt32(table, "sum")
 
 	h.fillFieldMap()
 
 	return h
 }
-
-func (h *henhouse) WithContext(ctx context.Context) IHenhouseDo { return h.henhouseDo.WithContext(ctx) }
-
-func (h henhouse) TableName() string { return h.henhouseDo.TableName() }
-
-func (h henhouse) Alias() string { return h.henhouseDo.Alias() }
 
 func (h *henhouse) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := h.fieldMap[fieldName]

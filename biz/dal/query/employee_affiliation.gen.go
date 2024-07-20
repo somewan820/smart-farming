@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"ST/dal/model"
+	"ST/biz/dal/model"
 )
 
 func newEmployeeAffiliation(db *gorm.DB) employeeAffiliation {
@@ -27,10 +27,10 @@ func newEmployeeAffiliation(db *gorm.DB) employeeAffiliation {
 
 	tableName := _employeeAffiliation.employeeAffiliationDo.TableName()
 	_employeeAffiliation.ALL = field.NewAsterisk(tableName)
-	_employeeAffiliation.ID = field.NewInt64(tableName, "id")
-	_employeeAffiliation.EmployeeID = field.NewInt64(tableName, "employee_id")
-	_employeeAffiliation.FarmID = field.NewInt64(tableName, "farm_id")
-	_employeeAffiliation.EnterpriseID = field.NewInt64(tableName, "enterprise_id")
+	_employeeAffiliation.ID = field.NewInt32(tableName, "id")
+	_employeeAffiliation.EmployeeID = field.NewInt32(tableName, "employee_id")
+	_employeeAffiliation.FarmID = field.NewInt32(tableName, "farm_id")
+	_employeeAffiliation.EnterpriseID = field.NewInt32(tableName, "enterprise_id")
 	_employeeAffiliation.CreateTime = field.NewTime(tableName, "create_time")
 
 	_employeeAffiliation.fillFieldMap()
@@ -39,13 +39,13 @@ func newEmployeeAffiliation(db *gorm.DB) employeeAffiliation {
 }
 
 type employeeAffiliation struct {
-	employeeAffiliationDo employeeAffiliationDo
+	employeeAffiliationDo
 
 	ALL          field.Asterisk
-	ID           field.Int64
-	EmployeeID   field.Int64
-	FarmID       field.Int64
-	EnterpriseID field.Int64
+	ID           field.Int32
+	EmployeeID   field.Int32
+	FarmID       field.Int32
+	EnterpriseID field.Int32
 	CreateTime   field.Time
 
 	fieldMap map[string]field.Expr
@@ -63,24 +63,16 @@ func (e employeeAffiliation) As(alias string) *employeeAffiliation {
 
 func (e *employeeAffiliation) updateTableName(table string) *employeeAffiliation {
 	e.ALL = field.NewAsterisk(table)
-	e.ID = field.NewInt64(table, "id")
-	e.EmployeeID = field.NewInt64(table, "employee_id")
-	e.FarmID = field.NewInt64(table, "farm_id")
-	e.EnterpriseID = field.NewInt64(table, "enterprise_id")
+	e.ID = field.NewInt32(table, "id")
+	e.EmployeeID = field.NewInt32(table, "employee_id")
+	e.FarmID = field.NewInt32(table, "farm_id")
+	e.EnterpriseID = field.NewInt32(table, "enterprise_id")
 	e.CreateTime = field.NewTime(table, "create_time")
 
 	e.fillFieldMap()
 
 	return e
 }
-
-func (e *employeeAffiliation) WithContext(ctx context.Context) IEmployeeAffiliationDo {
-	return e.employeeAffiliationDo.WithContext(ctx)
-}
-
-func (e employeeAffiliation) TableName() string { return e.employeeAffiliationDo.TableName() }
-
-func (e employeeAffiliation) Alias() string { return e.employeeAffiliationDo.Alias() }
 
 func (e *employeeAffiliation) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := e.fieldMap[fieldName]
