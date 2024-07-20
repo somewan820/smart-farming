@@ -2,4 +2,4 @@ package employees
 
 import "github.com/gin-gonic/gin"
 
-func
+func GetAffiliationInfo(c *gin.Context) {}

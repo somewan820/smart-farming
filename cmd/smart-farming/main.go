@@ -1,6 +1,7 @@
 package main
 
 import (
+	"ST/config"
 	"ST/dal"
 	"github.com/gin-gonic/gin"
 )
