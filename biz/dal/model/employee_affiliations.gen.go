@@ -8,9 +8,9 @@ import (
 	"time"
 )
 
-const TableNameEmployeeAffiliation = "employee_affiliation"
+const TableNameEmployeeAffiliation = "employee_affiliations"
 
-// EmployeeAffiliation mapped from table <employee_affiliation>
+// EmployeeAffiliation mapped from table <employee_affiliations>
 type EmployeeAffiliation struct {
 	ID           int32     `gorm:"column:id;primaryKey;autoIncrement:true" json:"id"`
 	EmployeeID   int32     `gorm:"column:employee_id;not null" json:"employee_id"`
