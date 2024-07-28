@@ -15,7 +15,7 @@ func Register(r *gin.Engine) {
 		{
 			//affiliation.PUT("", employees.EditAffiliationInfo)
 			affiliation.GET("", employees.GetAffiliationInfo)
-			//affiliation.POST("", employees.CreateAffiliation)
+			affiliation.POST("", employees.CreateAffiliation)
 		}
 		//root.PUT("/basic", employees.EditBasicInfo)
 		//root.GET("", employees.GetEmployeeInfo)

@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // GetAffiliationInfo @routers /employees/affiliation [GET]
@@ -27,12 +28,14 @@ func GetAffiliationInfo(c *gin.Context) {
 	}
 
 	var employee_affiliations []employeesType.EmployeeAffiliation
+	// 从数据库中查询 employee_affiliations 记录
 	err := dal.DB.Where("employee_id in ?", intEmployeeIds).Find(&employee_affiliations).Error
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
+	// 定义响应数据的结构
 	var responseData struct {
 		Employees []struct {
 			ID           int32 `json:"id"`
@@ -41,6 +44,7 @@ func GetAffiliationInfo(c *gin.Context) {
 		} `json:"employees"`
 	}
 
+	// 将查询到的 affiliation 数据填充到响应数据结构中
 	for _, affiliation := range employee_affiliations {
 		responseData.Employees = append(responseData.Employees, struct {
 			ID           int32 `json:"id"`
@@ -54,4 +58,31 @@ func GetAffiliationInfo(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "data": responseData})
+}
+
+func CreateAffiliation(c *gin.Context) {
+	var getJson employeesType.CreateAffiliationRequestJson
+	if err := c.ShouldBindJSON(&getJson); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	now := time.Now()
+	formatted := now.Format("2006-01-02 15:04:05")
+
+	var backJson = employeesType.EmployeeAffiliation{
+		EmployeeID:   getJson.EmployeeID,
+		FarmID:       getJson.FarmID,
+		EnterpriseID: getJson.EnterpriseID,
+		CreateTime:   formatted,
+	}
+
+	if err := dal.DB.Create(&backJson).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	lastInsertID := backJson.ID
+
+	c.JSON(http.StatusOK, gin.H{"code": 0, "msg": "success", "data": lastInsertID})
 }
